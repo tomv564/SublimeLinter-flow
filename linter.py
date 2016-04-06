@@ -46,6 +46,8 @@ class Flow(Linter):
         command = [self.executable_path]
         merged_settings = self.get_merged_settings()
 
+        command.append("status") # to be sure in case the default command changes.
+
         if merged_settings['show-all-errors']:
             command.append('--show-all-errors')
 
