@@ -99,10 +99,18 @@ class Flow(Linter):
         full of sanitized matches. Instead, this implementation returns a list
         of errors processed by _error_to_tuple, ready for SublimeLinter to unpack
         """
+
+
+        match = re.match('{.*}', output)
+        if match is None:
+            persist.debug('flow no json in output')
+            return []
+        json_string = match.group()
+
         try:
             # calling flow in a matching syntax without a `flowconfig` will cause the
             # output of flow to be an error message. catch and return []
-            parsed = json.loads(output)
+            parsed = json.loads(json_string)
         except ValueError:
             persist.debug('flow {}'.format(output))
             return []

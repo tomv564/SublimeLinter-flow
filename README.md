@@ -1,7 +1,38 @@
 SublimeLinter-flow
 ================================
 
+# Extra-special Windows hacks edition.
+
+Two issues with the windows flow build from December 2015:
+
+* The self-started server times out starting up.
+* The client includes the full server log in the response, which fails to parse as JSON.
+
+Extra hacks to run on Windows (follow the normal instructions below first!):
+
+1. Download flow.exe from ![Ocamlpro](http://www.ocamlpro.com/pub/ocpwin/flow-builds/) and put it in your windows PATH.
+2. In a seperate console in your project root, run `flow server` 
+3. Customize your SublimeLinter Package Settings for flow as follows:
+
+```
+"flow": {
+    "@disable": false,
+    "args": [
+        "--no-auto-start"
+    ],
+    "chdir": "${project}",
+    "excludes": [],
+    "show-all-errors": false
+}
+```
+
+In other words: prevent Sublime from starting the flow server by itself, and force it to also chdir to the project root.
+`show-all-errors` should probably be turned on but is not relevant if you are just running file-by-file.
+
 [![Build Status](https://travis-ci.org/SublimeLinter/SublimeLinter-flow.svg?branch=master)](https://travis-ci.org/SublimeLinter/SublimeLinter-flow)
+
+
+# Original Documentation
 
 This linter plugin for [SublimeLinter][docs] provides an interface to [flow](http://flowtype.org/), a static type checker for JavaScript. It will be used with files that have the “JavaScript” syntax.
 
@@ -15,7 +46,7 @@ Before using this plugin, you must ensure that `flow` is installed on your syste
 
 In order for this linter to work you will need to run the `flow init` command in your project or manually create a `.flowconfig` file.
 
-**Note:** This plugin requires `flow` 0.1.0 or later.
+**Note:** This plugin requires `flow` 0.17.0 or later.
 
 ### Linter configuration
 In order for `flow` to be executed by SublimeLinter, you must ensure that its path is available to SublimeLinter. Before going any further, please read and follow the steps in [“Finding a linter executable”](http://sublimelinter.readthedocs.org/en/latest/troubleshooting.html#finding-a-linter-executable) through “Validating your PATH” in the documentation.
